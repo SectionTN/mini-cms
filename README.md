@@ -166,3 +166,20 @@ Back-office des catégories et des tags, messages de validation en français, pa
 ![Barre de navigation d'un utilisateur connecté, avec le message « Vous êtes connecté. »](screenshots/s11-connexion.png)
 
 ![Page 403 quand un auteur ouvre la modification de l'article d'un autre auteur](screenshots/s11-interdit.png)
+
+## Comparaison avec le starter kit Livewire
+
+| Critère | Mini-CMS (authentification manuelle) | Starter kit Livewire |
+|---|---|---|
+| Routes d'authentification | `routes/web.php` (`/inscription`, `/connexion`, `/deconnexion`) | enregistrées par Fortify depuis son paquet, absentes de `routes/web.php` |
+| Inscription | `app/Http/Controllers/Auth/RegisterController.php` et `RegisterRequest` | `app/Actions/Fortify/CreateNewUser.php` (`Validator::make` puis `User::create`) et `resources/views/pages/auth/register.blade.php` |
+| Connexion | `app/Http/Controllers/Auth/LoginController.php` (`store` : `Auth::attempt`, `regenerate`) | contrôleur de Fortify et `resources/views/pages/auth/login.blade.php` |
+| Déconnexion | `LoginController::destroy` (`logout`, `invalidate`, `regenerateToken`) | route `logout` de Fortify, mêmes opérations dans `app/Livewire/Actions/Logout.php` |
+| Limitation des tentatives | aucune | 5 tentatives par minute par e-mail et adresse IP (`app/Providers/FortifyServiceProvider.php`) |
+| Mot de passe oublié | absent | `Features::resetPasswords()` dans `config/fortify.php` |
+| Vérification de l'e-mail | absente | `Features::emailVerification()`, `MustVerifyEmail` sur `User`, middleware `verified` sur `/dashboard` |
+| Double authentification | absente | `Features::twoFactorAuthentication()` et `Features::passkeys()` |
+| Rôles et autorisations | colonne `role`, Gates `manage-categories` et `manage-tags`, `PostPolicy`, middleware `admin` (`EnsureUserIsAdmin`) | aucun, à écrire soi-même |
+| Tests | `AuthTest`, `AuthorizationTest`, `AdminAccessTest`, `PostVisibilityTest` | 10 fichiers dans `tests/Feature` (Auth, Settings, Dashboard), écrits avec PHPUnit |
+
+Ce que je garderais du kit dans un vrai projet : la limitation des tentatives de connexion, le mot de passe oublié et la vérification de l'e-mail, car les écrire soi-même prend du temps et une erreur y coûte cher. Je garderais en revanche mes propres rôles, Gates et Policies, que le kit ne fournit pas.
