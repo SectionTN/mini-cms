@@ -43,3 +43,21 @@ it('keeps the standard 404 page for an unknown category', function () {
         ->assertNotFound()
         ->assertDontSee('Article introuvable');
 });
+
+it('shows the read-only banner when the site is read-only', function () {
+    config(['site.read_only' => true]);
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertSee('Site en lecture seule');
+});
+
+it('suggests published posts on the not found page', function () {
+    Post::factory()->published()->create(['title' => 'Article publié suggéré']);
+    Post::factory()->create(['title' => 'Brouillon jamais suggéré']);
+
+    $this->get('/posts/999')
+        ->assertNotFound()
+        ->assertSee('Article publié suggéré')
+        ->assertDontSee('Brouillon jamais suggéré');
+});
