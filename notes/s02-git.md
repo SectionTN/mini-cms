@@ -21,3 +21,11 @@ Réponse : `vendor/` est généré par Composer et contient des milliers de fich
 ## 5. Git Credential Manager
 
 Réponse : le jeton est rangé dans le gestionnaire d'identifiants du système (entrée `git:https://github.com`). On le supprime en fin de séance sur un poste partagé de l'université, sinon la personne suivante peut pousser en mon nom.
+
+## 6. Historique depuis lab-01
+
+Nombre de commits depuis lab-01 : 4 avant ce commit (`git log --oneline lab-01..HEAD`).
+
+Fichiers modifiés depuis lab-01 : `notes/s02-git.md`, `screenshots/s02-a-propos.png` et `README.md` (modifié deux fois : lien du dépôt, puis tableau des routes).
+
+Ce que git tag -n affiche pour lab-01 : `lab-01` suivi du message du commit qu'il désigne, « Completer le travail de la session 01 ».
