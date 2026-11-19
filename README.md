@@ -23,7 +23,7 @@ Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication 
 ### Bash (Git Bash, macOS, Linux)
 
 ```bash
-git clone https://github.com/VOTRE-UTILISATEUR/mini-cms.git
+git clone https://github.com/SectionTN/mini-cms.git
 cd mini-cms
 composer install
 npm install
@@ -37,7 +37,7 @@ composer run dev
 ### PowerShell (Windows)
 
 ```powershell
-git clone https://github.com/VOTRE-UTILISATEUR/mini-cms.git
+git clone https://github.com/SectionTN/mini-cms.git
 cd mini-cms
 composer install
 npm install
